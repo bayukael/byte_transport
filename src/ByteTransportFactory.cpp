@@ -4,7 +4,7 @@ namespace pendarlab::lib::comm
 {
   using CreatorFn = std::function<std::shared_ptr<IByteTransport>(const std::unordered_map<std::string, std::string>&)>;
   using ValidatorFn = std::function<ByteTransportFactory::ValidationResult(const std::unordered_map<std::string, std::string>&)>;
-  
+
   struct Descriptor {
     CreatorFn creator;
     ValidatorFn validator;
@@ -20,7 +20,8 @@ namespace pendarlab::lib::comm
     return factory;
   }
 
-  std::shared_ptr<IByteTransport> ByteTransportFactory::create(const std::string& type, const std::unordered_map<std::string, std::string>& config)
+  std::shared_ptr<IByteTransport> ByteTransportFactory::create(const std::string& type,
+                                                               const std::unordered_map<std::string, std::string>& config)
   {
     auto& registry = p_impl_->registry;
     auto it = registry.find(type);
@@ -33,7 +34,7 @@ namespace pendarlab::lib::comm
   }
 
   ByteTransportFactory::ValidationResult ByteTransportFactory::validateConfig(const std::string& type,
-                                                                        const std::unordered_map<std::string, std::string>& config)
+                                                                              const std::unordered_map<std::string, std::string>& config)
   {
     auto& registry = p_impl_->registry;
     auto it = registry.find(type);
@@ -68,5 +69,9 @@ namespace pendarlab::lib::comm
       list_of_registered.push_back(name_str);
     }
     return list_of_registered;
+  }
+
+  ByteTransportFactory::ByteTransportFactory()
+  {
   }
 } // namespace pendarlab::lib::comm
