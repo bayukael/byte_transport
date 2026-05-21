@@ -45,10 +45,10 @@ namespace pendarlab::lib::comm
       if (registry[type].validator) {
         return registry[type].validator(config);
       } else {
-        result.msg = "[ByteTransportFactory]: Config validator is not found for type: " + type + "\n";
+        result.msg.push_back("[ByteTransportFactory]: Config validator is not found for type: " + type);
       }
     } else {
-      result.msg = "[ByteTransportFactory]: The given type: " + type + " is not registered\n";
+      result.msg.push_back("[ByteTransportFactory]: The given type: " + type + " is not registered");
     }
     result.ok = false;
     return result;

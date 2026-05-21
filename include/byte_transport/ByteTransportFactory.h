@@ -15,7 +15,7 @@ namespace pendarlab::lib::comm
   public:
     struct ValidationResult {
       bool ok;
-      std::string msg;
+      std::vector<std::string> msg;
     };
     using CreatorFn = std::function<std::unique_ptr<IByteTransport>(const std::unordered_map<std::string, std::string>&)>;
     using ValidatorFn = std::function<ValidationResult(const std::unordered_map<std::string, std::string>&)>;
