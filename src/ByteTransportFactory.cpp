@@ -2,7 +2,7 @@
 
 namespace pendarlab::lib::comm
 {
-  using CreatorFn = std::function<std::shared_ptr<IByteTransport>(const std::unordered_map<std::string, std::string>&)>;
+  using CreatorFn = std::function<std::unique_ptr<IByteTransport>(const std::unordered_map<std::string, std::string>&)>;
   using ValidatorFn = std::function<ByteTransportFactory::ValidationResult(const std::unordered_map<std::string, std::string>&)>;
 
   struct Descriptor {
@@ -22,7 +22,7 @@ namespace pendarlab::lib::comm
     return factory;
   }
 
-  std::shared_ptr<IByteTransport> ByteTransportFactory::create(const std::string& type,
+  std::unique_ptr<IByteTransport> ByteTransportFactory::create(const std::string& type,
                                                                const std::unordered_map<std::string, std::string>& config)
   {
     auto& registry = p_impl_->registry;
