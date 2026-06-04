@@ -1,6 +1,6 @@
 #pragma once
 
-#include "byte_transport/IByteTransport.h"
+#include "byte_transport/ByteTransport.h"
 
 #include <functional>
 #include <memory>
