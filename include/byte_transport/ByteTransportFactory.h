@@ -17,11 +17,11 @@ namespace pendarlab::lib::comm
       bool ok;
       std::vector<std::string> msg;
     };
-    using CreatorFn = std::function<std::unique_ptr<IByteTransport>(const std::unordered_map<std::string, std::string>&)>;
+    using CreatorFn = std::function<std::unique_ptr<ByteTransport>(const std::unordered_map<std::string, std::string>&)>;
     using ValidatorFn = std::function<ValidationResult(const std::unordered_map<std::string, std::string>&)>;
 
     static ByteTransportFactory& instance();
-    static std::unique_ptr<IByteTransport> create(const std::string& type, const std::unordered_map<std::string, std::string>& config);
+    static std::unique_ptr<ByteTransport> create(const std::string& type, const std::unordered_map<std::string, std::string>& config);
     static ValidationResult validateConfig(const std::string& type, const std::unordered_map<std::string, std::string>& config);
     static void registerByteTransport(const std::string& type, CreatorFn creator_fn, ValidatorFn validator_fn);
     static std::vector<std::string> showRegistered();
