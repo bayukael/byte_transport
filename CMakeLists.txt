@@ -7,14 +7,11 @@ set(CMAKE_BUILD_RPATH_USE_ORIGIN TRUE)
 
 find_package(GTest CONFIG REQUIRED)
 
-add_library(ByteTransport SHARED
-  src/Transport.cpp
-)
-target_include_directories(ByteTransport PUBLIC 
+add_library(ByteTransport INTERFACE)
+target_include_directories(ByteTransport INTERFACE 
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
 )
-set_target_properties(ByteTransport PROPERTIES OUTPUT_NAME byte_transport)
 
 add_executable(ByteTransportHeaderCheck
   test/header_check.cpp
