@@ -4,6 +4,7 @@ project(pendarlab_lib_comm_byte_transport)
 set(PROJECT_VERSION 1.0.0)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_BUILD_RPATH_USE_ORIGIN TRUE)
+set(NAMESPACE pendarlab)
 
 find_package(GTest CONFIG REQUIRED)
 
@@ -12,6 +13,7 @@ target_include_directories(ByteTransport INTERFACE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
 )
+add_library(${NAMESPACE}::ByteTransport ALIAS ByteTransport)
 
 add_executable(ByteTransportHeaderCheck
   test/header_check.cpp
