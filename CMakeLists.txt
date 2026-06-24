@@ -5,6 +5,7 @@ set(PROJECT_VERSION 1.0.0)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_BUILD_RPATH_USE_ORIGIN TRUE)
 set(NAMESPACE pendarlab)
+set(PACKAGE_FILENAME byte_transport)
 
 find_package(GTest CONFIG REQUIRED)
 
@@ -28,7 +29,6 @@ target_include_directories(ByteTransportHeaderCheck PUBLIC
 
 set(TARGET_EXPORT_NAME ByteTransportTargets)
 set(TARGET_EXPORT_FILENAME byte_transport_targets)
-set(PACKAGE_FILENAME byte_transport)
 set(PACKAGE_DIRECTORY_DESTINATION lib/cmake/byte_transport)
 
 install(
