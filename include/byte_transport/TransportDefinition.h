@@ -13,7 +13,7 @@ namespace pendarlab::lib::comm::byte_transport
   {
   public:
     virtual ~TransportDefinition() = default;
-    virtual ConfigParseResult parseConfig(const std::unordered_map<std::string, std::string>& cfg) = 0;
-    virtual std::unique_ptr<Transport> create(const Config& cfg) = 0;
+    virtual ConfigParseResult parseConfig(const std::unordered_map<std::string, std::string>& cfg) const = 0;
+    virtual std::unique_ptr<Transport> create(const Config& cfg) const = 0;
   };
 } // namespace pendarlab::lib::comm::byte_transport

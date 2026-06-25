@@ -9,19 +9,16 @@ set(PACKAGE_FILENAME byte_transport)
 
 find_package(GTest CONFIG REQUIRED)
 
-add_library(ByteTransport INTERFACE)
-target_include_directories(ByteTransport INTERFACE 
+add_library(ByteTransport SHARED
+    src/Registry.cpp
+    src/RegistryUser.cpp
+)
+target_include_directories(ByteTransport PUBLIC 
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
 )
 add_library(${NAMESPACE}::ByteTransport ALIAS ByteTransport)
 
-add_executable(ByteTransportHeaderCheck
-  test/header_check.cpp
-)
-target_include_directories(ByteTransportHeaderCheck PUBLIC 
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-)
 
 ##############################################################################
 ######################     Define Files to Install     #######################
