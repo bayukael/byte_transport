@@ -28,7 +28,7 @@ set_target_properties(ByteTransport PROPERTIES OUTPUT_NAME pendarlab-byte_transp
 
 set(TARGET_EXPORT_NAME ByteTransportTargets)
 set(TARGET_EXPORT_FILENAME byte_transport_targets)
-set(PACKAGE_DIRECTORY_DESTINATION lib/cmake/byte_transport)
+set(PACKAGE_DIRECTORY_DESTINATION lib/cmake/${PACKAGE_NAME})
 
 install(
 	TARGETS ByteTransport
