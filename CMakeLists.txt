@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_BUILD_RPATH_USE_ORIGIN TRUE)
 set(NAMESPACE pendarlab)
 set(PACKAGE_FILENAME byte_transport)
+set(PACKAGE_NAME PendarlabByteTransport)
 
 find_package(GTest CONFIG REQUIRED)
 
@@ -18,6 +19,7 @@ target_include_directories(ByteTransport PUBLIC
     $<INSTALL_INTERFACE:include>
 )
 add_library(${NAMESPACE}::ByteTransport ALIAS ByteTransport)
+set_target_properties(ByteTransport PROPERTIES OUTPUT_NAME pendarlab-byte_transport)
 
 
 ##############################################################################
@@ -39,7 +41,7 @@ install(
 install(
 	EXPORT ${TARGET_EXPORT_NAME}
 	FILE ${TARGET_EXPORT_FILENAME}.cmake
-	NAMESPACE pendarlab::
+	NAMESPACE ${NAMESPACE}::
 	DESTINATION ${PACKAGE_DIRECTORY_DESTINATION}
 )
 
@@ -51,12 +53,12 @@ include(CMakePackageConfigHelpers)
 
 configure_package_config_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/cmake/${PACKAGE_FILENAME}-config.cmake.in
-    ${CMAKE_CURRENT_BINARY_DIR}/${PACKAGE_FILENAME}-config.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/${PACKAGE_NAME}Config.cmake
     INSTALL_DESTINATION ${PACKAGE_DIRECTORY_DESTINATION}
 )
 
 write_basic_package_version_file(
-    ${CMAKE_CURRENT_BINARY_DIR}/${PACKAGE_FILENAME}-config-version.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/${PACKAGE_NAME}ConfigVersion.cmake
     VERSION ${PROJECT_VERSION}
     COMPATIBILITY SameMajorVersion
 )
