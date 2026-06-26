@@ -67,7 +67,7 @@ write_basic_package_version_file(
 # 5. Install Config + Version files
 # -------------------------------------------------
 install(FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/${PACKAGE_FILENAME}-config.cmake
-    ${CMAKE_CURRENT_BINARY_DIR}/${PACKAGE_FILENAME}-config-version.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/${PACKAGE_FILENAME}Config.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/${PACKAGE_FILENAME}ConfigVersion.cmake
     DESTINATION ${PACKAGE_DIRECTORY_DESTINATION}
 )
