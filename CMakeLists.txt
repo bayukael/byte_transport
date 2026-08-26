@@ -1,14 +1,102 @@
 cmake_minimum_required(VERSION 3.13)
 project(pendarlab_lib_comm_byte_transport)
 
+set(PROJECT_VERSION 1.0.0)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_BUILD_RPATH_USE_ORIGIN TRUE)
+set(NAMESPACE pendarlab)
+set(PACKAGE_FILENAME byte_transport)
+set(PACKAGE_NAME PendarlabByteTransport)
 
 find_package(GTest CONFIG REQUIRED)
 
-add_library(pendarlab_comm_byte_transport SHARED
-  src/ByteTransportFactory.cpp
+add_library(ByteTransport SHARED
+    src/Registry.cpp
+    src/RegistryUser.cpp
 )
-target_include_directories(pendarlab_comm_byte_transport PUBLIC 
+target_include_directories(ByteTransport PUBLIC 
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+)
+add_library(${NAMESPACE}::ByteTransport ALIAS ByteTransport)
+set_target_properties(ByteTransport PROPERTIES OUTPUT_NAME pendarlab-byte_transport)
+
+##############################################################################
+######################     MockTransportDefinition     #######################
+##############################################################################
+add_library(ByteTransportMockTransport SHARED
+    test/mock_transport/MockTransportDefinition.cpp
+    test/mock_transport/MockTransport.cpp
+)
+target_include_directories(ByteTransportMockTransport PUBLIC 
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/test>
+)
+
+
+##############################################################################
+#########################     ByteTransport Test     #########################
+##############################################################################
+add_executable(ByteTransportTest
+    test/byte_transport_test.cpp
+)
+target_include_directories(ByteTransportTest PUBLIC 
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/test>
+)
+target_link_libraries(ByteTransportTest
+    PRIVATE ByteTransport
+    PRIVATE ByteTransportMockTransport
+    PRIVATE gtest
+)
+
+
+##############################################################################
+######################     Define Files to Install     #######################
+##############################################################################
+
+set(TARGET_EXPORT_NAME ByteTransportTargets)
+set(TARGET_EXPORT_FILENAME byte_transport_targets)
+set(PACKAGE_DIRECTORY_DESTINATION lib/cmake/${PACKAGE_NAME})
+
+install(
+	TARGETS ByteTransport
+	EXPORT ${TARGET_EXPORT_NAME}
+)
+install(
+	DIRECTORY include/
+	DESTINATION include
+)
+install(
+	EXPORT ${TARGET_EXPORT_NAME}
+	FILE ${TARGET_EXPORT_FILENAME}.cmake
+	NAMESPACE ${NAMESPACE}::
+	DESTINATION ${PACKAGE_DIRECTORY_DESTINATION}
+)
+
+##############################################################################
+##########################     CMake Packaging     ###########################
+##############################################################################
+
+include(CMakePackageConfigHelpers)
+
+configure_package_config_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/cmake/${PACKAGE_FILENAME}-config.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/${PACKAGE_NAME}Config.cmake
+    INSTALL_DESTINATION ${PACKAGE_DIRECTORY_DESTINATION}
+)
+
+write_basic_package_version_file(
+    ${CMAKE_CURRENT_BINARY_DIR}/${PACKAGE_NAME}ConfigVersion.cmake
+    VERSION ${PROJECT_VERSION}
+    COMPATIBILITY SameMajorVersion
+)
+
+# -------------------------------------------------
+# 5. Install Config + Version files
+# -------------------------------------------------
+install(FILES
+    ${CMAKE_CURRENT_BINARY_DIR}/${PACKAGE_NAME}Config.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/${PACKAGE_NAME}ConfigVersion.cmake
+    DESTINATION ${PACKAGE_DIRECTORY_DESTINATION}
 )
