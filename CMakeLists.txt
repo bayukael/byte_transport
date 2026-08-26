@@ -21,6 +21,35 @@ target_include_directories(ByteTransport PUBLIC
 add_library(${NAMESPACE}::ByteTransport ALIAS ByteTransport)
 set_target_properties(ByteTransport PROPERTIES OUTPUT_NAME pendarlab-byte_transport)
 
+##############################################################################
+######################     MockTransportDefinition     #######################
+##############################################################################
+add_library(ByteTransportMockTransport SHARED
+    test/mock_transport/MockTransportDefinition.cpp
+    test/mock_transport/MockTransport.cpp
+)
+target_include_directories(ByteTransportMockTransport PUBLIC 
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/test>
+)
+
+
+##############################################################################
+#########################     ByteTransport Test     #########################
+##############################################################################
+add_executable(ByteTransportTest
+    test/byte_transport_test.cpp
+)
+target_include_directories(ByteTransportTest PUBLIC 
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/test>
+)
+target_link_libraries(ByteTransportTest
+    PRIVATE ByteTransport
+    PRIVATE ByteTransportMockTransport
+    PRIVATE gtest
+)
+
 
 ##############################################################################
 ######################     Define Files to Install     #######################
