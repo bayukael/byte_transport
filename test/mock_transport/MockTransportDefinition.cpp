@@ -9,7 +9,7 @@ namespace pendarlab::lib::comm::byte_transport
   ConfigParseResult MockTransportDefinition::parseConfig(const std::unordered_map<std::string, std::string>& cfg) const
   {
     ConfigParseResult result;
-    result.config = Config();
+    result.config = std::make_unique<Config>();
     result.messages.push_back("mock succeeded");
     return result;
   }
