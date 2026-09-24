@@ -1,12 +1,16 @@
 cmake_minimum_required(VERSION 3.13)
-project(pendarlab_lib_comm_byte_transport)
+project(pendarlab_lib_comm_byte_transport VERSION 1.0.0)
 
-set(PROJECT_VERSION 1.0.0)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_BUILD_RPATH_USE_ORIGIN TRUE)
 set(NAMESPACE pendarlab)
 set(PACKAGE_FILENAME byte_transport)
 set(PACKAGE_NAME PendarlabByteTransport)
+
+string(REGEX REPLACE "/+$" "" _bt_base "${CMAKE_INSTALL_PREFIX}")
+if(NOT _bt_base MATCHES "/${PROJECT_VERSION}$")
+    set(CMAKE_INSTALL_PREFIX "${_bt_base}/${PROJECT_VERSION}" CACHE PATH "" FORCE)
+endif()
 
 find_package(GTest CONFIG REQUIRED)
 
@@ -19,7 +23,11 @@ target_include_directories(ByteTransport PUBLIC
     $<INSTALL_INTERFACE:include>
 )
 add_library(${NAMESPACE}::ByteTransport ALIAS ByteTransport)
-set_target_properties(ByteTransport PROPERTIES OUTPUT_NAME pendarlab-byte_transport)
+set_target_properties(ByteTransport PROPERTIES
+    OUTPUT_NAME pendarlab-byte_transport
+    VERSION ${PROJECT_VERSION}
+    SOVERSION ${PROJECT_VERSION_MAJOR}
+)
 
 ##############################################################################
 ######################     MockTransportDefinition     #######################
