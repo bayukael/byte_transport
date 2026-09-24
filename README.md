@@ -1,6 +1,6 @@
 # byte_transport
 
-A C++17 library for registering and looking up transport implementations (e.g. serial, TCP, USB) behind a common interface, built with CMake and installed as a consumable CMake package.
+A library for registering and looking up transport implementations (e.g. serial, TCP, USB) behind a common interface so that users can easily switch between different transport implementations without any changes in their code. This library does not provide the transport implementations, though. Users need to provide with their own transport implementation.
 
 ## What it does
 
