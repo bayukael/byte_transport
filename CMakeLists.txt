@@ -7,6 +7,9 @@ set(NAMESPACE pendarlab)
 set(PACKAGE_FILENAME byte_transport)
 set(PACKAGE_NAME PendarlabByteTransport)
 
+# Append the version to the install prefix so each release installs into its own
+# subdirectory (<prefix>/<version>/), letting multiple versions coexist and be
+# switched via CMAKE_PREFIX_PATH without the user typing the version.
 string(REGEX REPLACE "/+$" "" _bt_base "${CMAKE_INSTALL_PREFIX}")
 if(NOT _bt_base MATCHES "/${PROJECT_VERSION}$")
     set(CMAKE_INSTALL_PREFIX "${_bt_base}/${PROJECT_VERSION}" CACHE PATH "" FORCE)
@@ -14,11 +17,18 @@ endif()
 
 find_package(GTest CONFIG REQUIRED)
 
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/byte_transport/Version.h.in
+    ${CMAKE_CURRENT_BINARY_DIR}/include/byte_transport/Version.h
+    @ONLY
+)
+
 add_library(ByteTransport SHARED
     src/Registry.cpp
     src/RegistryUser.cpp
 )
 target_include_directories(ByteTransport PUBLIC 
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
 )
@@ -74,6 +84,11 @@ install(
 install(
 	DIRECTORY include/
 	DESTINATION include
+	PATTERN "*.in" EXCLUDE
+)
+install(
+	FILES ${CMAKE_CURRENT_BINARY_DIR}/include/byte_transport/Version.h
+	DESTINATION include/byte_transport
 )
 install(
 	EXPORT ${TARGET_EXPORT_NAME}
