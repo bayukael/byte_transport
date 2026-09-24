@@ -46,12 +46,36 @@ Run a single test:
 
 There are no lint/format targets; building and running `ByteTransportTest` is the only verification.
 
+## Install
+
+Install the library into a versioned subdirectory of the given prefix. The version is appended automatically, so each release coexists under its own directory (e.g. `<prefix>/1.0.0/`).
+
+```bash
+cmake -S . -B build -G Ninja
+cmake --install build --prefix <prefix>
+```
+
+This installs to `<prefix>/1.0.0/` with this layout:
+
+```
+<prefix>/1.0.0/
+  include/byte_transport/          # public headers
+  lib/libpendarlab-byte_transport.so -> .so.1 -> .so.1.0.0
+  lib/cmake/PendarlabByteTransport # CMake package config
+```
+
+Bump the version in `CMakeLists.txt` (`project(... VERSION ...)`) and reinstall to produce a new versioned directory; switching between installed versions is done by pointing `CMAKE_PREFIX_PATH` at the desired version (see below).
+
 ## Using the library from another project
 
-The library installs as the CMake package `PendarlabByteTransport` (exported target `pendarlab::ByteTransport`):
+The library installs as the CMake package `PendarlabByteTransport` (exported target `pendarlab::ByteTransport`). Point `CMAKE_PREFIX_PATH` at the version you want and request it from `find_package`:
+
+```bash
+cmake -S my_app -B build -DCMAKE_PREFIX_PATH=<prefix>/1.0.0
+```
 
 ```cmake
-find_package(PendarlabByteTransport REQUIRED)
+find_package(PendarlabByteTransport 1.0.0 REQUIRED)
 target_link_libraries(my_app PRIVATE pendarlab::ByteTransport)
 ```
 
