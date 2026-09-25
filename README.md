@@ -48,11 +48,14 @@ There are no lint/format targets; building and running `ByteTransportTest` is th
 
 ## Install
 
-Install the library into a versioned subdirectory of the given prefix. The version is appended automatically, so each release coexists under its own directory (e.g. `<prefix>/1.0.0/`).
+Install the library into a versioned subdirectory of the given prefix. The version is appended automatically during configuration, so each release coexists under its own directory (e.g. `<prefix>/1.0.0/`).
+
+To install with the version appended, set `CMAKE_INSTALL_PREFIX` during configuration:
 
 ```bash
-cmake -S . -B build -G Ninja
-cmake --install build --prefix <prefix>
+cmake -S . -B build -G Ninja -DCMAKE_INSTALL_PREFIX=<prefix>
+cmake --build build
+cmake --install build
 ```
 
 This installs to `<prefix>/1.0.0/` with this layout:
@@ -64,7 +67,15 @@ This installs to `<prefix>/1.0.0/` with this layout:
   lib/cmake/PendarlabByteTransport # CMake package config
 ```
 
-Bump the version in `CMakeLists.txt` (`project(... VERSION ...)`) and reinstall to produce a new versioned directory; switching between installed versions is done by pointing `CMAKE_PREFIX_PATH` at the desired version (see below).
+If you want to install somewhere else (e.g. into a different prefix or a non-versioned location), you can override the destination with `--prefix` at install time:
+
+```bash
+cmake --install build --prefix <other-prefix>
+```
+
+Note that `--prefix` overrides the version-appended prefix computed at configure time, so only use it when you actually want to change the install destination.
+
+Bump the version in `CMakeLists.txt` (`project(... VERSION ...)`) and reconfigure (or reconfigure with a new `CMAKE_INSTALL_PREFIX`) to produce a new versioned directory; switching between installed versions is done by pointing `CMAKE_PREFIX_PATH` at the desired version (see below).
 
 ## Using the library from another project
 
