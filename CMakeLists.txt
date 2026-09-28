@@ -7,14 +7,6 @@ set(NAMESPACE pendarlab)
 set(PACKAGE_FILENAME byte_transport)
 set(PACKAGE_NAME PendarlabByteTransport)
 
-# Append the version to the install prefix so each release installs into its own
-# subdirectory (<prefix>/<version>/), letting multiple versions coexist and be
-# switched via CMAKE_PREFIX_PATH without the user typing the version.
-string(REGEX REPLACE "/+$" "" _bt_base "${CMAKE_INSTALL_PREFIX}")
-if(NOT _bt_base MATCHES "/${PROJECT_VERSION}$")
-    set(CMAKE_INSTALL_PREFIX "${_bt_base}/${PROJECT_VERSION}" CACHE PATH "" FORCE)
-endif()
-
 find_package(GTest CONFIG REQUIRED)
 
 configure_file(
