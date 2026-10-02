@@ -1,14 +1,22 @@
 #pragma once
 
+/// Major version component of the library.
 #define PENDARLAB_BYTE_TRANSPORT_VERSION_MAJOR @PROJECT_VERSION_MAJOR@
+/// Minor version component of the library.
 #define PENDARLAB_BYTE_TRANSPORT_VERSION_MINOR @PROJECT_VERSION_MINOR@
+/// Patch version component of the library.
 #define PENDARLAB_BYTE_TRANSPORT_VERSION_PATCH @PROJECT_VERSION_PATCH@
+/// Full version string of the library (e.g. "1.2.3").
 #define PENDARLAB_BYTE_TRANSPORT_VERSION "@PROJECT_VERSION@"
 
 namespace pendarlab::lib::comm::byte_transport
 {
+  /// Library major version.
   inline constexpr int versionMajor = PENDARLAB_BYTE_TRANSPORT_VERSION_MAJOR;
+  /// Library minor version.
   inline constexpr int versionMinor = PENDARLAB_BYTE_TRANSPORT_VERSION_MINOR;
+  /// Library patch version.
   inline constexpr int versionPatch = PENDARLAB_BYTE_TRANSPORT_VERSION_PATCH;
+  /// Full library version string.
   inline constexpr const char* version = PENDARLAB_BYTE_TRANSPORT_VERSION;
 } // namespace pendarlab::lib::comm::byte_transport
